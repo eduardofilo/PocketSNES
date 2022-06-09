@@ -693,10 +693,10 @@ int mainEntry(int argc, char* argv[])
 	sal_VideoInit(16);
 
 	mRomName[0]=0;
-	if (argc >= 2) 
+	if (argc >= 2)
  		strcpy(mRomName, argv[1]); // Record ROM name
 
-	MenuInit(sal_DirectoryGetHome(), &mMenuOptions);
+	MenuInit(sal_DirectoryGetHome(), sal_DirectoryGetStates(), &mMenuOptions);
 
 	if(SnesInit() == SAL_ERROR)
 	{

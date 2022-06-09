@@ -163,7 +163,7 @@ struct SAVE_STATE
 //####################################
 //# Functions
 //####################################
-void MenuInit(const char *systemDir, struct MENU_OPTIONS *menuOptions);
+void MenuInit(const char *systemDir, const char *statesDir, struct MENU_OPTIONS *menuOptions);
 s32 MenuRun(s8 *romName);
 //void LoadSram(const char *path, const char *romname, const char *ext, const char *srammem);
 //void SaveSram(const char *path, const char *romname, const char *ext, const char *srammem);

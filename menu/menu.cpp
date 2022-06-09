@@ -29,20 +29,21 @@ static struct SAVE_STATE mSaveState[10];  // holds the filenames for the savesta
 static s8 mSaveStateName[SAL_MAX_PATH]={""};       // holds the last filename to be scanned for save states
 static s8 mRomName[SAL_MAX_PATH]={""};
 static s8 mSystemDir[SAL_MAX_PATH];
+static s8 mStatesDir[SAL_MAX_PATH];
 struct MENU_OPTIONS *mMenuOptions=NULL;
 static u16 mTempFb[SNES_WIDTH*SNES_HEIGHT_EXTENDED*2];
 
 static char errormsg[MAX_DISPLAY_CHARS];
 
 extern "C" void S9xSaveSRAM(int showWarning);
-									
+
 void DefaultMenuOptions(void)
 {
 	// mMenuOptions->frameSkip=0;   //auto
 	mMenuOptions->frameSkip=1;   //0
-	mMenuOptions->soundEnabled = 1; 
-	mMenuOptions->volume=25; 
-	mMenuOptions->cpuSpeed=336; 
+	mMenuOptions->soundEnabled = 1;
+	mMenuOptions->volume=25;
+	mMenuOptions->cpuSpeed=336;
 	mMenuOptions->country=0;
 	mMenuOptions->showFps=0;
 	// mMenuOptions->soundRate=22050; //44100;
@@ -656,7 +657,7 @@ static void ScanSaveStates(s8 *romname)
 		shortname(minus file ext) + SV + saveno ( 0 to 9 )
 		*/
 		sprintf(mSaveState[i].filename,"%s%d",savename,i);
-		sprintf(mSaveState[i].fullFilename,"%s%s%s",mSystemDir,SAL_DIR_SEP,mSaveState[i].filename);
+		sprintf(mSaveState[i].fullFilename,"%s%s%s",mStatesDir,SAL_DIR_SEP,mSaveState[i].filename);
 		if (sal_FileExists(mSaveState[i].fullFilename)==SAL_TRUE)
 		{
 			// we have a savestate
@@ -1224,12 +1225,13 @@ void MenuReloadOptions()
 	DefaultMenuOptions();
 }
 
-void MenuInit(const char *systemDir, struct MENU_OPTIONS *menuOptions)
+void MenuInit(const char *systemDir, const char *statesDir, struct MENU_OPTIONS *menuOptions)
 {
 	u16 *pix;
 	s32 x;
-	
+
 	strcpy(mSystemDir,systemDir);
+	strcpy(mStatesDir,statesDir);
 	mMenuOptions=menuOptions;
 
 	if(LoadMenuOptions(mSystemDir, DEFAULT_ROM_DIR_FILENAME, DEFAULT_ROM_DIR_EXT, mRomDir, SAL_MAX_PATH, 0)!=SAL_OK)

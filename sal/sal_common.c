@@ -673,6 +673,22 @@ const char * sal_DirectoryGetHome(void)
 	return home;
 }
 
+const char * sal_DirectoryGetStates(void)
+{
+	static char states [SAL_MAX_PATH];
+
+	if (!states[0]) {
+		char *env_home = getenv("HOME");
+		strcpy(states, env_home);
+		sal_DirectoryCombine(states, ".pocketsnes");
+		sal_DirectoryCombine(states, "states");
+
+		/* Create the directory if it didn't already exist */
+		mkdir(states, 0755);
+	}
+	return states;
+}
+
 const char * sal_DirectoryGetUser(void)
 {
 	return getenv("HOME");
